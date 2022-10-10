@@ -1,6 +1,7 @@
 # Mechanical Squeezing in Quadratically-coupled Optomechanical Systems
 
-[![Version](https://img.shields.io/badge/version-1.0-red?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/manuscript-v1.4-red?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/qom-v0.9.0-red?style=for-the-badge)](#)
 
 > A collection of all data and scripts for the work.
 
@@ -13,11 +14,11 @@ Author | Affiliation
 ## About the Work
 
 We demonstrate the generation of a strong mechanical squeezing in a dissipative optomechanical system by introducing a periodic modulation in the amplitude of a single-tone laser driving the system.
-The mechanical oscillator is quadratically coupled to the optical mode, which contributes to a strong squeezing exceeding the 3-dB standard quantum limit.
+The mechanical oscillator is quadratically coupled to the optical mode, which contributes to a strong squeezing exceeding the $3$ dB standard quantum limit.
 The Bogoliubov mode of the mechanical oscillator also cools down to its ground state due to sideband cooling.
 We further optimize this ratio of sideband strengths to introduce enhanced squeezing.
 We also compare our results with the analytical (under adiabatic approximation) and the exact numerical solution.
-Even for a thermal occupancy of 104 phonons, mechanical squeezing beyond 3 dB and a strong optomechanical entanglement is observed.
+Even for a thermal occupancy of $10^{4}$ phonons, mechanical squeezing beyond $3$ dB and a strong optomechanical entanglement is observed.
 
 ## Structure of the Repository
 
