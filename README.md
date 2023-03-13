@@ -1,6 +1,6 @@
 # Mechanical Squeezing in Quadratically-coupled Optomechanical Systems
 
-[![Version](https://img.shields.io/badge/manuscript-v1.4-red?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/manuscript-v2.2-red?style=for-the-badge)](#)
 [![Version](https://img.shields.io/badge/qom-v0.9.0-red?style=for-the-badge)](#)
 
 > A collection of all data and scripts for the work.
@@ -13,12 +13,12 @@ Author | Affiliation
 
 ## About the Work
 
-We demonstrate the generation of a strong mechanical squeezing in a dissipative optomechanical system by introducing a periodic modulation in the amplitude of a single-tone laser driving the system.
-The mechanical oscillator is quadratically coupled to the optical mode, which contributes to a strong squeezing exceeding the $3$ dB standard quantum limit.
-The Bogoliubov mode of the mechanical oscillator also cools down to its ground state due to sideband cooling.
-We further optimize this ratio of sideband strengths to introduce enhanced squeezing.
-We also compare our results with the analytical (under adiabatic approximation) and the exact numerical solution.
-Even for a thermal occupancy of $10^{4}$ phonons, mechanical squeezing beyond $3$ dB and a strong optomechanical entanglement is observed.
+We demonstrate the dissipation-enabled generation of a strong mechanical squeezing in a cavity optomechanical system by periodically modulating the amplitude of a single-tone laser driving the system. 
+The Bogoliubov mode of the quadratically-coupled mechanical oscillator cools down to its ground state due to optomechanical sideband cooling, which contributes to a strong squeezing exceeding the $3$ dB standard quantum limit.
+This sideband cooling mechanism is further optimized by numerically maximizing the ratio of the coupling sidebands.
+Then we look at the crucial role of the cavity mode dissipation in inducing an enhanced squeezing.
+We also verify our results with the analytical solution (under adiabatic approximation) and the exact numerical solution.
+Compared with previous setups, the quadratic coupling between the mechanical oscillator and the optical mode gives rise to a robust mechanical squeezing and a strong optomechanical entanglement even for a large thermal occupancy of the mechanical mode.
 
 ## Structure of the Repository
 
