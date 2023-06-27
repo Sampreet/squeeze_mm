@@ -1,14 +1,14 @@
-# Mechanical Squeezing in Quadratically-coupled Optomechanical Systems
+# Robust Mechanical Squeezing beyond 3 dB in a Quadratically Coupled Optomechanical System
 
-[![Version](https://img.shields.io/badge/manuscript-v2.2-red?style=for-the-badge)](#)
-[![Version](https://img.shields.io/badge/qom-v0.9.0-red?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/version-2.2-red?style=for-the-badge)](https://doi.org/10.1364/JOSAB.483944)
+[![Toolbox](https://img.shields.io/badge/qom-v1.0.0-red?style=for-the-badge)](https://sampreet.github.io/qom-docs)
 
 > A collection of all data and scripts for the work.
 
 Author | Affiliation
 ------------ | -------------
-[Priyankar Banerjee](https://www.iitg.ac.in/stud/p.banerjee/) | Department of Physics, Indian Institute of Technology Guwahati, Assam 781039, India
 [Sampreet Kalita](https://www.iitg.ac.in/stud/sampreet/) | Department of Physics, Indian Institute of Technology Guwahati, Assam 781039, India
+[Priyankar Banerjee](https://www.iitg.ac.in/stud/p.banerjee/) | Department of Physics, Indian Institute of Technology Guwahati, Assam 781039, India
 [Amarendra Kumar Sarma](https://www.iitg.ac.in/aksarma/) | Department of Physics, Indian Institute of Technology Guwahati, Assam 781039, India
 
 ## About the Work
@@ -20,27 +20,46 @@ Then we look at the crucial role of the cavity mode dissipation in inducing an e
 We also verify our results with the analytical solution (under adiabatic approximation) and the exact numerical solution.
 Compared with previous setups, the quadratic coupling between the mechanical oscillator and the optical mode gives rise to a robust mechanical squeezing and a strong optomechanical entanglement even for a large thermal occupancy of the mechanical mode.
 
+## Notebooks
+
+* [Plots in the Manuscript](notebooks/v2.2_qom-v1.0.0/plots.ipynb)
+
 ## Structure of the Repository
 
 ```
 ROOT_DIR/
 |
 ├───data/
-│   ├───foo-bar/
+│   ├───bar/
 │   │   ├───baz_xyz.npz
 │   │   └───...
 │   └───...
 |
+├───notebooks/
+│   ├───bar/
+│   │   ├───baz.ipynb
+│   │   └───...
+│   │
+│   ├───foo_baz.ipynb
+│   └───...
+|
 │───scripts/
-│   ├───foo-bar/
+│   ├───bar/
 │   │   ├───baz.py
 │   │   └───...
+│   └───...
+|
+├───systems/
+│   ├───__init__.py
+│   ├───Foo.py
 │   └───...
 │
 ├───.gitignore
 ├───CHANGELOG.md
 └───README.md
 ```
+
+Here, `foo` represents the module or system and `bar` represents the version.
 
 ## Execution
 
@@ -56,7 +75,7 @@ conda create -n qom python=3
 conda activate qom
 ```
 
-This project uses [The Quantum Optomechanics Toolbox](https://github.com/Sampreet/qom) via Python Package Index using `pip`:
+This project uses [The Quantum Optomechanics Toolbox](https://github.com/Sampreet/qom) which can be installed via Python Package Index using `pip` by executing:
 
 ```bash
 pip install -i https://test.pypi.org/simple/ qom
@@ -74,7 +93,7 @@ pip install -e ROOT_DIR
 To run the scripts, navigate *inside* the top-level directory, `ROOT_DIR`, and execute:
 
 ```bash
-python scripts/foo-bar/baz.py
+python scripts/bar/baz.py
 ```
 
-Here, `foo-bar` is the name of the folder and  `baz.py` is the name of the file.
+Here, `bar` is the name of the folder inside `scripts` and `baz.py` is the name of the script (refer to the repository structure).

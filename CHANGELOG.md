@@ -1,5 +1,10 @@
 # Changelog
 
+## 2023/06/27 - 00 - Version Upgrade
+> Toolbox version 1.0.0
+* Added data and scripts for `v2.2` of the manuscript for JOSA B Review 01.
+* Updated `README`.
+
 ## 2023/03/13 - 00 - JOSA B v2.2 Review 01
 > Toolbox version 0.9.0
 * Added data and scripts for `v2.2` of the manuscript for JOSA B Review 01.

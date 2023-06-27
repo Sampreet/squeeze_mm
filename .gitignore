@@ -1,8 +1,9 @@
 # Visual Studio files
 .vscode/
 
-# project data files
-data/mm_01/
+# extra files
+cache*/
+temp*/
 
 # Jupyter Notebook Checkpoints
 *.ipynb_checkpoints/
