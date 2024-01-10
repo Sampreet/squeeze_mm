@@ -1,5 +1,9 @@
 # Changelog
 
+## 2024/01/10 - 01 - Minor Fixes
+> Toolbox version 1.0.1
+* Minor fixes to notebooks.
+
 ## 2024/01/10 - 00 - Version Upgrade
 > Toolbox version 1.0.1
 * Upgraded notebooks and scripts.
