@@ -5,7 +5,7 @@ import sys
 
 # qom modules
 from qom.ui import init_log
-from qom.solvers import HLESolver
+from qom.solvers.deterministic import HLESolver
 from qom.ui.plotters import MPLPlotter
 
 # add path to local libraries
@@ -14,21 +14,21 @@ sys.path.append(os.path.abspath(os.path.join('.')))
 from systems.MiddleMembrane import MM_01
 
 # frequently used variables
-rat         = 0.93
-beta_sum    = (400 * rat - 40.0) / (2.0 - 0.4 * rat)
+rat = 0.93
+beta_sum = (400 * rat - 40.0) / (2.0 - 0.4 * rat)
 
 # all parameters
 params = {
     'solver': {
         'show_progress' : True,
         'cache'         : False,
-        'method'        : 'vode',
+        'ode_method'    : 'vode',
         'indices'       : [(2, 2)],
         't_min'         : 0.0,
         't_max'         : 250.0,
         't_dim'         : 25001,
-        't_range_min'   : 5000,
-        't_range_max'   : 25001
+        't_index_min'   : 5000,
+        't_index_max'   : 25001
     },
     'system': {
         'alphas'        : [2.0, 0.2, 0.2],
@@ -43,20 +43,19 @@ params = {
     },
     'plotter': {
         'type'              : 'lines',
+        'colors'            : ['k', 'k', 'k', 'b', 'r'],
+        'sizes'             : [1.0] * 5,
+        'styles'            : ['-.', '-', ':', '-', '-'],
         'x_label'           : '$\\omega_{m} t$',
         'x_ticks'           : [i * 50 + 50 for i in range(5)],
         'x_ticks_minor'     : [i * 5 + 50 for i in range(41)],
-        'y_colors'          : ['k', 'k', 'k', 'b', 'r'],
-        'y_sizes'           : [1.0] * 5,
-        'y_styles'          : ['-.', '-', ':', '-', '-'],
         'v_label'           : '$- 10 \\mathrm{log}_{10} \\langle \\tilde{Q}^{2} \\rangle$',
         'v_ticks'           : [i * 5 for i in range(5)],
         'v_ticks_minor'     : [i * 1.25 for i in range(17)],
-        'height'            : 4.8,
-        'width'             : 9.6,
         'label_font_size'   : 32,
-        'legend_font_size'  : 28,
         'tick_font_size'    : 28,
+        'width'             : 9.6,
+        'height'            : 4.8,
         'annotations'       : [{
             'text'  : '(b)',
             'xy'    : (0.15, 0.84)
@@ -73,13 +72,13 @@ system = MM_01(
     params=params['system']
 )
 # initialize solver
-hle_solver  = HLESolver(
+hle_solver = HLESolver(
     system=system,
     params=params['solver']
 )
 # get times and mechanical position variances
-T   = hle_solver.get_times_in_range()
-M_0 = hle_solver.get_corr_indices_in_range().transpose()[0]
+T = hle_solver.get_times()
+M_0 = hle_solver.get_corr_indices().transpose()[0]
 
 # initialize system with RWA
 params['system']['t_rwa'] = True
@@ -87,12 +86,12 @@ system = MM_01(
     params=params['system']
 )
 # initialize solver
-hle_solver  = HLESolver(
+hle_solver = HLESolver(
     system=system,
     params=params['solver']
 )
 # get mechanical position variances
-M_1 = hle_solver.get_corr_indices_in_range().transpose()[0]
+M_1 = hle_solver.get_corr_indices().transpose()[0]
 
 # get SQL
 M_2 = [0.5] * len(T)
@@ -116,9 +115,7 @@ plotter = MPLPlotter(
     params=params['plotter']
 )
 plotter.update(
-    xs=T,
-    vs=- 10 * np.log10([M_0, M_1, M_2, M_3, M_4])
+    vs=- 10 * np.log10([M_0, M_1, M_2, M_3, M_4]),
+    xs=T
 )
-plotter.show(
-    hold=True
-)
+plotter.show()

@@ -3,7 +3,7 @@ import os
 import sys
 
 # qom modules
-from qom.solvers import HLESolver
+from qom.solvers.deterministic import HLESolver
 from qom.ui import init_log
 from qom.ui.plotters import MPLPlotter
 
@@ -17,8 +17,8 @@ params = {
     'solver': {
         'show_progress' : True,
         'cache'         : False,
-        'method'        : 'vode',
-        'indices'       : [(3, 3)],
+        'ode_method'    : 'vode',
+        'indices'       : [(2, 2)],
         't_min'         : 0.0,
         't_max'         : 200.0,
         't_dim'         : 2001
@@ -36,25 +36,25 @@ params = {
     },
     'plotter': {
         'type'              : 'lines',
+        'colors'            : ['b', 'r', 'k'],
+        'sizes'             : [1.0] * 3,
+        'styles'            : ['-', '-', '--'],
         'x_label'           : '$\\omega_{m} t$',
         'x_ticks'           : [i * 40 for i in range(6)],
         'x_ticks_minor'     : [i * 5 for i in range(41)],
-        'y_colors'          : ['b', 'r', 'k'],
-        'y_legend'          : ['without RWA', 'with RWA', 'SQL'],
-        'y_sizes'           : [1.0] * 3,
-        'y_styles'          : ['-', '-', '--'],
-        'v_label'           : '$\\langle \\hat{P}^{2} \\rangle$',
+        'v_label'           : '$\\langle \\hat{Q}^{2} \\rangle$',
         'v_ticks'           : [i * 1 for i in range(5)],
         'v_ticks_minor'     : [i * 0.25 for i in range(17)],
         'show_legend'       : True,
+        'legend_labels'     : ['without RWA', 'with RWA', 'SQL'],
         'legend_location'   : 'upper right',
-        'height'            : 4.8,
-        'width'             : 9.6,
         'label_font_size'   : 32,
         'legend_font_size'  : 28,
         'tick_font_size'    : 28,
-        'annotations': [{
-            'text'  : '(b)',
+        'width'             : 9.6,
+        'height'            : 4.8,
+        'annotations'       : [{
+            'text'  : '(a)',
             'xy'    : (0.14, 0.82)
         }]
     }
@@ -69,13 +69,14 @@ system = MM_01(
     params=params['system']
 )
 
-# get mechanical momentum variances
+# initialize solver
 hle_solver = HLESolver(
     system=system,
     params=params['solver']
 )
-T   = hle_solver.get_times_in_range()
-M_0 = hle_solver.get_corr_indices_in_range().transpose()[0]
+# get times and variances
+T = hle_solver.get_times()
+M_0 = hle_solver.get_corr_indices().transpose()[0]
 
 # initialize system with RWA
 params['system']['t_rwa'] = True
@@ -83,11 +84,11 @@ system = MM_01(
     params=params['system']
 )
 
-# get mechanical momentum variances
+# get variances
 M_1 = HLESolver(
     system=system,
     params=params['solver']
-).get_corr_indices_in_range().transpose()[0]
+).get_corr_indices().transpose()[0]
 
 # plotter
 plotter = MPLPlotter(
@@ -95,9 +96,7 @@ plotter = MPLPlotter(
     params=params['plotter']
 )
 plotter.update(
-    xs=T,
-    vs=[M_0, M_1, [0.5] * len(T)]
+    vs=[M_0, M_1, [0.5] * len(T)],
+    xs=T
 )
-plotter.show(
-    hold=True
-)
+plotter.show()

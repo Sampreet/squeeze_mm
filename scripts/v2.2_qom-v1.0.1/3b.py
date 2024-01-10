@@ -4,8 +4,8 @@ import os
 import sys
 
 # qom modules
-from qom.solvers import HLESolver
-from qom.solvers.MeasureSolver import get_wigner_single_mode
+from qom.solvers.deterministic import HLESolver
+from qom.solvers.measure import get_Wigner_distributions_single_mode
 from qom.ui import init_log
 from qom.ui.plotters import MPLPlotter
 
@@ -23,15 +23,15 @@ params = {
     'solver': {
         'show_progress' : True,
         'cache'         : False,
-        'method'        : 'vode',
+        'ode_method'    : 'vode',
         'indices'       : [1],
         'wigner_xs'     : np.linspace(-_max, _max, _dim),
         'wigner_ys'     : np.linspace(-_max, _max, _dim),
         't_min'         : 0.0,
         't_max'         : 200.0,
         't_dim'         : 2001,
-        't_range_min'   : 1980,
-        't_range_max'   : 2001,
+        't_index_min'   : 1980,
+        't_index_max'   : 2001,
     },
     'system': {
         'alphas'        : [2.0, 0.2, 0.2],
@@ -58,32 +58,33 @@ params = {
         'y_ticks_minor' : [i - _max for i in range(7)],
         'v_ticks'       : [0.0, 0.1, 0.2, 0.3],
         'v_ticks_minor' : [i * 0.05 for i in range(8)],
-        'height'        : 2.5,
-        'width'         : 2.3,
         'show_cbar'     : True,
         'cbar_title'    : '$W$',
         'cbar_tick_pad' : -2,
         'cbar_ticks'    : [0.0, 0.1, 0.2, 0.3],
-        'width'         : 3.0,
+        'width'         : 2.75,
+        'height'        : 2.5
     }
 }
 
 # initialize logger
 init_log()
 
-# initialize system with RWA
-params['system']['t_rwa'] = True
+# initialize system without RWA
+params['system']['t_rwa'] = False
 system = MM_01(
     params=params['system']
 )
 
-# get correlations and times
-_, Corrs, T = HLESolver(
+# get times and correlations
+hle_solver = HLESolver(
     system=system,
     params=params['solver']
-).get_modes_corrs_times_in_range()
+)
+T = hle_solver.get_times()
+_, Corrs = hle_solver.get_modes_corrs()
 # get Wigner distributions
-Wigners = get_wigner_single_mode(
+Wigners = get_Wigner_distributions_single_mode(
     Corrs=Corrs,
     params=params['solver']
 )
@@ -101,6 +102,4 @@ for i in range(0, len(T), 5):
     plotter.update(
         vs=Wigners[i, 0]
     )
-    plotter.show(
-        hold=True
-    )
+    plotter.show()

@@ -4,9 +4,9 @@ import os
 import sys
 
 # qom modules
-from qom.solvers import HLESolver
+from qom.solvers.deterministic import HLESolver
 from qom.ui.plotters import MPLPlotter
-from qom.utils.looper import run_loopers_in_parallel, wrap_looper
+from qom.utils.loopers import run_loopers_in_parallel, wrap_looper
 
 # add path to local libraries
 sys.path.append(os.path.abspath(os.path.join('.')))
@@ -16,8 +16,8 @@ from systems.MiddleMembrane import MM_01
 # all parameters
 params = {
     'looper': {
-        'show_progress'     : True,
-        'X' : {
+        'show_progress' : True,
+        'X'             : {
             'var'   : 'beta_pm_sum',
             'min'   : 75,
             'max'   : 225,
@@ -27,13 +27,13 @@ params = {
     'solver': {
         'show_progress' : False,
         'cache'         : True,
-        'method'        : 'vode',
+        'ode_method'    : 'vode',
         'indices'       : [(2, 2)],
         't_min'         : 0.0,
         't_max'         : 1000.0,
         't_dim'         : 10001,
-        't_range_min'   : 9371,
-        't_range_max'   : 10001
+        't_index_min'   : 9371,
+        't_index_max'   : 10001
     },
     'system': {
         'alphas'        : [2.0, 0.2, 0.2],
@@ -48,26 +48,26 @@ params = {
     },
     'plotter': {
         'type'              : 'lines',
+        'colors'            : ['b', 'r', 'b', 'r', 'k'],
+        'sizes'             : [2.0] * 2 + [1.0] * 3,
+        'styles'            : ['-'] * 2 + ['--'] * 2 + [':'],
         'x_label'           : '$G_{1} / G_{0}$',
         'x_ticks'           : [i * 0.1 + 0.5 for i in range(6)],
         'x_ticks_minor'     : [i * 0.01 + 0.5 for i in range(51)],
-        'y_colors'          : ['b', 'r', 'b', 'r', 'k'],
-        'y_legend'          : [
-            '$n_{b} = 10$',
-            '$n_{b} = 1000$'
-        ],
-        'y_sizes'           : [2.0] * 2 + [1.0] * 3,
-        'y_styles'          : ['-'] * 2 + ['--'] * 2 + [':'],
         'v_label'           : '$- 10 \\mathrm{log}_{10} \\langle \\tilde{Q}^{2} \\rangle$',
         'v_ticks'           : [i * 5 for i in range(5)],
         'v_ticks_minor'     : [i * 1 for i in range(21)],
         'show_legend'       : True,
+        'legend_labels'     : [
+            '$n_{b} = 10$',
+            '$n_{b} = 1000$'
+        ],
         'legend_location'   : 'upper center',
-        'height'            : 4.8,
-        'width'             : 9.6,
         'label_font_size'   : 32,
         'legend_font_size'  : 28,
         'tick_font_size'    : 28,
+        'width'             : 9.6,
+        'height'            : 4.8,
         'annotations'       : [{
             'text'  : '(a)',
             'xy'    : (0.15, 0.84)
@@ -78,9 +78,9 @@ params = {
 # function to calculate the ratio and variance
 def func_rat_var(system_params):
     # update parameters
-    val                         = system_params['beta_pm_sum']
-    system_params['betas'][1]   = val / 2.0
-    system_params['betas'][2]   = val / 2.0
+    val = system_params['beta_pm_sum']
+    system_params['betas'][1] = val / 2.0
+    system_params['betas'][2] = val / 2.0
 
     # initialize system
     system = MM_01(
@@ -99,16 +99,16 @@ def func_rat_var(system_params):
     var = np.min(HLESolver(
         system=system,
         params=params['solver']
-    ).get_corr_indices_in_range()[:, 0])
+    ).get_corr_indices()[:, 0])
 
     # update results
     return np.array([rat, var], dtype=np.float_)
 
 if __name__ == '__main__':
     # low thermal phonons with RWA
-    params['looper']['file_path_prefix']    = 'data/v2.2_qom-v1.0.0/4a_rwa_n=10.0'
-    params['system']['ns'][1]               = 10.0
-    params['system']['t_rwa']               = True
+    params['looper']['file_path_prefix'] = 'data/v2.2_qom-v1.0.1/4a_rwa_n=10.0'
+    params['system']['ns'][1] = 10.0
+    params['system']['t_rwa'] = True
     looper = run_loopers_in_parallel(
         looper_name='XLooper',
         func=func_rat_var,
@@ -119,9 +119,9 @@ if __name__ == '__main__':
     rats, vars_0_rwa = np.transpose(looper.results['V'])
 
     # high thermal phonons with RWA
-    params['looper']['file_path_prefix']    = 'data/v2.2_qom-v1.0.0/4a_rwa_n=1000.0'
-    params['system']['ns'][1]               = 1000.0
-    params['system']['t_rwa']               = True
+    params['looper']['file_path_prefix'] = 'data/v2.2_qom-v1.0.1/4a_rwa_n=1000.0'
+    params['system']['ns'][1] = 1000.0
+    params['system']['t_rwa'] = True
     looper = run_loopers_in_parallel(
         looper_name='XLooper',
         func=func_rat_var,
@@ -132,9 +132,9 @@ if __name__ == '__main__':
     _, vars_1_rwa = np.transpose(looper.results['V'])
 
     # low thermal phonons without RWA
-    params['looper']['file_path_prefix']    = 'data/v2.2_qom-v1.0.0/4a_wrwa_n=10.0'
-    params['system']['ns'][1]               = 10.0
-    params['system']['t_rwa']               = False
+    params['looper']['file_path_prefix'] = 'data/v2.2_qom-v1.0.1/4a_wrwa_n=10.0'
+    params['system']['ns'][1] = 10.0
+    params['system']['t_rwa'] = False
     looper = run_loopers_in_parallel(
         looper_name='XLooper',
         func=func_rat_var,
@@ -145,9 +145,9 @@ if __name__ == '__main__':
     _, vars_0_wrwa = np.transpose(looper.results['V'])
 
     # high thermal phonons without RWA
-    params['looper']['file_path_prefix']    = 'data/v2.2_qom-v1.0.0/4a_wrwa_n=1000.0'
-    params['system']['ns'][1]               = 1000.0
-    params['system']['t_rwa']               = False
+    params['looper']['file_path_prefix'] = 'data/v2.2_qom-v1.0.1/4a_wrwa_n=1000.0'
+    params['system']['ns'][1] = 1000.0
+    params['system']['t_rwa'] = False
     looper = run_loopers_in_parallel(
         looper_name='XLooper',
         func=func_rat_var,
@@ -163,9 +163,7 @@ if __name__ == '__main__':
         params=params['plotter']
     )
     plotter.update(
-        xs=rats,
-        vs=- 10 * np.log10([vars_0_rwa, vars_1_rwa, vars_0_wrwa, vars_1_wrwa, [0.5] * len(vars_0_rwa)])
+        vs=- 10 * np.log10([vars_0_rwa, vars_1_rwa, vars_0_wrwa, vars_1_wrwa, [0.5] * len(vars_0_rwa)]),
+        xs=rats
     )
-    plotter.show(
-        hold=True
-    )
+    plotter.show()

@@ -3,6 +3,7 @@
 
 # extra files
 cache*/
+img*/
 temp*/
 
 # Jupyter Notebook Checkpoints

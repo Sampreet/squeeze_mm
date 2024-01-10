@@ -1,15 +1,27 @@
 # Robust Mechanical Squeezing beyond 3 dB in a Quadratically Coupled Optomechanical System
 
-[![Version](https://img.shields.io/badge/version-2.2-red?style=for-the-badge)](https://doi.org/10.1364/JOSAB.483944)
-[![Toolbox](https://img.shields.io/badge/qom-v1.0.0-red?style=for-the-badge)](https://sampreet.github.io/qom-docs)
+[![Manuscript Version](https://img.shields.io/badge/version-2.2-red?style=for-the-badge)](https://doi.org/10.1364/JOSAB.483944)
+[![Toolbox Version](https://img.shields.io/badge/qom-v1.0.1-red?style=for-the-badge)](https://sampreet.github.io/qom-docs/v1.0.1)
+[![Last Updated](https://img.shields.io/github/last-commit/sampreet/squeeze_mm?style=for-the-badge)](https://github.com/sampreet/squeeze_mm/blob/master/CHANGELOG.md)
 
-> A collection of all data and scripts for the work.
+> J. Opt. Soc. Am. B 40, 1398 (2023)
 
 Author | Affiliation
 ------------ | -------------
-[Sampreet Kalita](https://www.iitg.ac.in/stud/sampreet/) | Department of Physics, Indian Institute of Technology Guwahati, Assam 781039, India
 [Priyankar Banerjee](https://www.iitg.ac.in/stud/p.banerjee/) | Department of Physics, Indian Institute of Technology Guwahati, Assam 781039, India
+[Sampreet Kalita](https://www.iitg.ac.in/stud/sampreet/) | Department of Physics, Indian Institute of Technology Guwahati, Assam 781039, India
 [Amarendra Kumar Sarma](https://www.iitg.ac.in/aksarma/) | Department of Physics, Indian Institute of Technology Guwahati, Assam 781039, India
+
+Contributing Part | PB | SK
+------------ | ------------ | -------------
+Literature review | 70% | 30%
+Idea and formulation | 50% | 50%
+Derivations of expressions | 80% | 20%
+Parameter sweeping | 30% | 70%
+Illustrations and plots | 30% | 70%
+Results and discussion | 60% | 40%
+Manuscript preparation | 60% | 40%
+
 
 ## About the Work
 
@@ -22,7 +34,7 @@ Compared with previous setups, the quadratic coupling between the mechanical osc
 
 ## Notebooks
 
-* [Plots in the Manuscript](notebooks/v2.2_qom-v1.0.0/plots.ipynb)
+* [Plots in the Latest Version of the Manuscript](notebooks/v2.2_qom-v1.0.1/plots.ipynb)
 
 ## Structure of the Repository
 
@@ -61,39 +73,17 @@ ROOT_DIR/
 
 Here, `foo` represents the module or system and `bar` represents the version.
 
-## Execution
+## Installing Dependencies
 
-### Installing Dependencies
+All numerical data and plots are obtained using the [Quantum Optomechanics Toolbox](https://github.com/sampreet/qom), an open-source Python framework to simulate optomechanical systems.
+Refer to the [QOM toolbox documentation](https://sampreet.github.io/qom-docs/v1.0.1) for the steps to install this libary.
 
-The project requires `Python 3.8+` installed via the [Anaconda distribution](https://www.anaconda.com/products/individual). 
-An extensive guide to set up your python environment same can be found [here](https://sampreet.github.io/python-for-physicists/modules/m01-getting-started/m01t01-setting-up-python.html).
+## Running the Scripts
 
-Once the installation is complete and `conda` is configured, it is preferable to create a new conda environment (say `qom`) and activate it using:
-
-```bash
-conda create -n qom python=3
-conda activate qom
-```
-
-This project uses [The Quantum Optomechanics Toolbox](https://github.com/Sampreet/qom) which can be installed via Python Package Index using `pip` by executing:
-
-```bash
-pip install -i https://test.pypi.org/simple/ qom
-```
-
-Alternatively, [clone the repository](https://github.com/Sampreet/qom) or [download the sources](https://github.com/Sampreet/qom/archive/refs/heads/master.zip) as `.zip` and extract the contents.
-Now, execute the following from *outside* the top-level directory, `ROOT_DIR`, inside which `setup.py` is located:
-
-```bash
-pip install -e ROOT_DIR
-```
-
-### Running the Scripts
-
-To run the scripts, navigate *inside* the top-level directory, `ROOT_DIR`, and execute:
+To run the scripts, navigate *inside* the top-level directory, and execute:
 
 ```bash
 python scripts/bar/baz.py
 ```
 
-Here, `bar` is the name of the folder inside `scripts` and `baz.py` is the name of the script (refer to the repository structure).
+Here, `bar` is the name of the folder (containing the version information) inside `scripts` and `baz.py` is the name of the script (refer to the repository structure).
